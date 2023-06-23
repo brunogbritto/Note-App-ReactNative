@@ -25,7 +25,11 @@ export function Container({ navigation }: Props) {
       >
         <ButtonText>Veja os notepads</ButtonText>
       </Button>
-      <Button onPress={() => alert("Botão pressionado")}>
+      <Button
+        onPress={() => {
+          navigation.navigate(screens.mapView);
+        }}
+      >
         <ButtonText>Visualize o mapa</ButtonText>
       </Button>
     </ContainerDiv>

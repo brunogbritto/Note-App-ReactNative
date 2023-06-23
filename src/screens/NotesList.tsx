@@ -1,8 +1,9 @@
-import { View, Text, FlatList, Alert } from "react-native";
+import { View, Text, FlatList } from "react-native";
 import screens from "../screens.json";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { api } from "../api";
 import { NoteItem } from "../components/NoteItem";
+
 import type { Notepad } from "../types";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { ParamListBase } from "@react-navigation/native";
