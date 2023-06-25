@@ -9,8 +9,8 @@ interface Props extends NativeStackScreenProps<ParamListBase> {}
 export function Container({ navigation }: Props) {
   return (
     <ContainerDiv>
-      <Header>React Native App</Header>
-      <WelcomeText>Bem-vindo ao meu app!</WelcomeText>
+      <Header>PostMe App</Header>
+      <WelcomeText>Seja bem-vindo!</WelcomeText>
       <Button
         onPress={() => {
           navigation.navigate(screens.noteCreate);

@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View, Text, Button, TouchableOpacity } from "react-native";
 import { useEffect, useState } from "react";
 import screens from "../screens.json";
 import { api } from "../api";
@@ -34,6 +34,25 @@ export function NoteView({ navigation, route }: NativeStackScreenProps<any>) {
       <DateStyle>
         Criado em {new Date(notepad.created_at).toLocaleDateString()}
       </DateStyle>
+      <ButtonBox>
+        <DeleteButton
+          title="Deletar"
+          color="#eb4d4b"
+          onPress={async () => {
+            const { data } = await api.delete(`/notepads/${id}`);
+            navigation.navigate(screens.notesList);
+          }}
+        />
+        <EditButton
+          title="Editar"
+          color="#008080"
+          onPress={async () => {
+            navigation.navigate(screens.noteEdit, {
+              id,
+            });
+          }}
+        />
+      </ButtonBox>
     </NoteBox>
   );
 }
@@ -85,4 +104,20 @@ const NoteBox = styled.View`
   height: 300px;
   align-self: center;
   justify-content: center;
+`;
+
+const ButtonBox = styled.View`
+  flex-direction: row;
+  gap: 10px;
+  margin-top: 10px;
+`;
+
+const DeleteButton = styled(Button)`
+  width: 120px;
+  border-radius: 10px;
+`;
+
+const EditButton = styled(Button)`
+  width: 120px;
+  border-radius: 10px;
 `;

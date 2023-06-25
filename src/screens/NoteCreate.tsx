@@ -1,9 +1,11 @@
-import { View, TextInput } from "react-native";
+import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import { useState } from "react";
 import styled from "styled-components/native";
 import screens from "../screens.json";
+import Toast from "react-native-root-toast";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { ParamListBase } from "@react-navigation/native";
+import { api } from "../api";
 
 interface Props extends NativeStackScreenProps<ParamListBase> {}
 
@@ -13,6 +15,14 @@ const initialFormState = {
   content: "",
 };
 
+const Texts = {
+  title: "Criar notepad",
+  titlePlaceholder: "Digite um título aqui",
+  subtitlePlaceholder: "Digite um subtítulo aqui",
+  contentPlaceholder: "Digite um conteúdo aqui",
+  submitButton: "Enviar",
+};
+
 export function NoteCreate({ navigation }: Props) {
   const [form, setForm] = useState(initialFormState);
 
@@ -20,13 +30,35 @@ export function NoteCreate({ navigation }: Props) {
     <PageContainer>
       <PageTitle>Crie seu note</PageTitle>
       <CreateBox>
+        <InputContainer>
+          <InputTitle
+            value={form.title}
+            onChangeText={(title) => setForm({ ...form, title })}
+            placeholder={Texts.titlePlaceholder}
+          />
+          <InputSubtitle
+            value={form.subtitle}
+            onChangeText={(subtitle) => setForm({ ...form, subtitle })}
+            placeholder={Texts.subtitlePlaceholder}
+          />
+          <InputContent
+            value={form.content}
+            onChangeText={(content) => setForm({ ...form, content })}
+            placeholder={Texts.contentPlaceholder}
+            multiline={true}
+            numberOfLines={6}
+          />
+        </InputContainer>
         <Button
-          title="Editar Notepad"
-          onPress={() => {
-            navigation.navigate(screens.noteEdit);
+          onPress={async () => {
+            const { data } = await api.post("/notepads", form);
+
+            console.log(data);
+
+            navigation.navigate(screens.notesList);
           }}
         >
-          <ButtonText>Editar Note</ButtonText>
+          <ButtonText>{Texts.submitButton}</ButtonText>
         </Button>
       </CreateBox>
     </PageContainer>
@@ -36,7 +68,7 @@ export function NoteCreate({ navigation }: Props) {
 const Button = styled.TouchableOpacity`
   background-color: #008080;
   padding: 8px 16px;
-  margin-top: 270px;
+  margin-top: 100px;
   margin-right: 250px;
   border-radius: 8px;
   width: 120px;
@@ -71,4 +103,20 @@ const PageTitle = styled.Text`
 const PageContainer = styled.View`
   height: 100%;
   width: 100%;
+`;
+
+const InputTitle = styled(TextInput)`
+  margin-bottom: 10px;
+`;
+
+const InputSubtitle = styled(TextInput)`
+  margin-top: 20px;
+`;
+
+const InputContent = styled(TextInput)`
+  margin-top: 30px;
+`;
+
+const InputContainer = styled.View`
+  flex: 1;
 `;

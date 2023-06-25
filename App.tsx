@@ -10,6 +10,7 @@ import { NotesList } from "./src/screens/NotesList";
 import { MapViewPage } from "./src/screens/MapViewPage";
 import { Loader } from "./src/components/Loader";
 import { api } from "./src/api";
+import { RootSiblingParent } from "react-native-root-siblings";
 
 import screens from "./src/screens.json";
 
@@ -41,18 +42,20 @@ export default function App() {
   }, []);
 
   return (
-    <AppStateContext.Provider value={appState}>
-      <Loader loading={appState.loading} />
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName={screens.home}>
-          <Stack.Screen name={screens.home} component={Home} />
-          <Stack.Screen name={screens.noteView} component={NoteView} />
-          <Stack.Screen name={screens.noteCreate} component={NoteCreate} />
-          <Stack.Screen name={screens.noteEdit} component={NoteEdit} />
-          <Stack.Screen name={screens.notesList} component={NotesList} />
-          <Stack.Screen name={screens.mapView} component={MapViewPage} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </AppStateContext.Provider>
+    <RootSiblingParent>
+      <AppStateContext.Provider value={appState}>
+        <Loader loading={appState.loading} />
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName={screens.home}>
+            <Stack.Screen name={screens.home} component={Home} />
+            <Stack.Screen name={screens.noteView} component={NoteView} />
+            <Stack.Screen name={screens.noteCreate} component={NoteCreate} />
+            <Stack.Screen name={screens.noteEdit} component={NoteEdit} />
+            <Stack.Screen name={screens.notesList} component={NotesList} />
+            <Stack.Screen name={screens.mapView} component={MapViewPage} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </AppStateContext.Provider>
+    </RootSiblingParent>
   );
 }
